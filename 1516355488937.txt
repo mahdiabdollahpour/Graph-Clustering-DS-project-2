@@ -1,0 +1,14 @@
+read time :9 ms
+process time :7 ms
+command : RUN linkedlist quick 
+source input :small2.txt
+1 : A
+2 : A
+3 : B
+4 : A
+5 : A
+6 : A
+7 : A
+8 : A
+9 : A
+10 : A
