@@ -1,0 +1,45 @@
+input :test6.txt
+read time :2314
+process time :1002
+command : RUN linkedlist optimum insertion 20 
+///////////
+read time :1617
+process time :957
+command : RUN linkedlist optimum insertion 21 
+///////////
+read time :3164
+process time :844
+command : RUN linkedlist optimum insertion 22 
+///////////
+read time :1853
+process time :844
+command : RUN linkedlist optimum insertion 23 
+///////////
+read time :2117
+process time :821
+command : RUN linkedlist optimum insertion 24 
+///////////
+read time :1705
+process time :841
+command : RUN linkedlist optimum insertion 25 
+///////////
+read time :1363
+process time :823
+command : RUN linkedlist optimum insertion 26 
+///////////
+read time :2141
+process time :886
+command : RUN linkedlist optimum insertion 27 
+///////////
+read time :1948
+process time :800
+command : RUN linkedlist optimum insertion 28 
+///////////
+read time :1728
+process time :825
+command : RUN linkedlist optimum insertion 29 
+///////////
+read time :2330
+process time :685
+command : RUN linkedlist optimum insertion 30 
+///////////

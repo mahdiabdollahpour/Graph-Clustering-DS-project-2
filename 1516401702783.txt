@@ -1,0 +1,45 @@
+input :test3.txt
+read time :845
+process time :507
+command : RUN linkedlist optimum insertion 20 
+///////////
+read time :741
+process time :311
+command : RUN linkedlist optimum insertion 21 
+///////////
+read time :495
+process time :235
+command : RUN linkedlist optimum insertion 22 
+///////////
+read time :509
+process time :228
+command : RUN linkedlist optimum insertion 23 
+///////////
+read time :436
+process time :243
+command : RUN linkedlist optimum insertion 24 
+///////////
+read time :516
+process time :249
+command : RUN linkedlist optimum insertion 25 
+///////////
+read time :528
+process time :223
+command : RUN linkedlist optimum insertion 26 
+///////////
+read time :448
+process time :254
+command : RUN linkedlist optimum insertion 27 
+///////////
+read time :331
+process time :239
+command : RUN linkedlist optimum insertion 28 
+///////////
+read time :562
+process time :235
+command : RUN linkedlist optimum insertion 29 
+///////////
+read time :476
+process time :229
+command : RUN linkedlist optimum insertion 30 
+///////////

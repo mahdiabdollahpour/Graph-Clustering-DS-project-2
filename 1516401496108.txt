@@ -1,0 +1,45 @@
+input :test5.txt
+read time :1824
+process time :1529
+command : RUN linkedlist optimum bubble 20 
+///////////
+read time :1096
+process time :630
+command : RUN linkedlist optimum bubble 21 
+///////////
+read time :1245
+process time :800
+command : RUN linkedlist optimum bubble 22 
+///////////
+read time :1149
+process time :690
+command : RUN linkedlist optimum bubble 23 
+///////////
+read time :1557
+process time :611
+command : RUN linkedlist optimum bubble 24 
+///////////
+read time :1348
+process time :491
+command : RUN linkedlist optimum bubble 25 
+///////////
+read time :1225
+process time :579
+command : RUN linkedlist optimum bubble 26 
+///////////
+read time :1272
+process time :593
+command : RUN linkedlist optimum bubble 27 
+///////////
+read time :1222
+process time :590
+command : RUN linkedlist optimum bubble 28 
+///////////
+read time :1212
+process time :611
+command : RUN linkedlist optimum bubble 29 
+///////////
+read time :1217
+process time :570
+command : RUN linkedlist optimum bubble 30 
+///////////
