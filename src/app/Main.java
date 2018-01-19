@@ -3,7 +3,7 @@ package app;
 import app.Graphs.Graph;
 import app.Graphs.Matrixrep;
 
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
 
@@ -11,46 +11,27 @@ public class Main {
     static long processTime = 0;
 
     public static void main(String[] args) {
-
-        String command = "RUN linkedlist quick";
-        String address = "test1.txt";
+//        BufferedReader bf = null;
+//        String address = null;
+//        String command = null;
+//        try {
+//            bf = new BufferedReader(new FileReader(new File("command")));
+//            command = bf.readLine();
+//            address = bf.readLine();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        String command = "RUN matrix quick";
+        String address = "small2.txt";
         String[] commands = command.split(" ");
         if (commands[1].toLowerCase().charAt(0) == 'l') {
             process(address, commands, true);
         } else {
             process(address, commands, false);
         }
-         command = "RUN linkedlist quick";
-        address = "test2.txt";
-         commands = command.split(" ");
-        if (commands[1].toLowerCase().charAt(0) == 'l') {
-            process(address, commands, true);
-        } else {
-            process(address, commands, false);
-        }
-        command = "RUN linkedlist quick";
-        address = "test3.txt";
-        commands = command.split(" ");
-        if (commands[1].toLowerCase().charAt(0) == 'l') {
-            process(address, commands, true);
-        } else {
-            process(address, commands, false);
-        }
-        command = "RUN linkedlist quick";
-        address = "test4.txt";
-        commands = command.split(" ");
-        if (commands[1].toLowerCase().charAt(0) == 'l') {
-            process(address, commands, true);
-        } else {
-            process(address, commands, false);
-        } command = "RUN linkedlist quick";
-        address = "test5.txt";
-        commands = command.split(" ");
-        if (commands[1].toLowerCase().charAt(0) == 'l') {
-            process(address, commands, true);
-        } else {
-            process(address, commands, false);
-        }
+
     }
 
 

@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 public class Matrixrep extends Graph {
 
+    int[] starts;
+
+    public void stoteStarts() {
+        starts = new int[v];
+        for (int i = 0; i < v; i++) {
+            starts[i] = firstStart(i);
+        }
+    }
 
     @Override
     public boolean isConnected() {
@@ -37,6 +45,7 @@ public class Matrixrep extends Graph {
 
     @Override
     public Edge[] calcCij() {
+        stoteStarts();
         Edge[] cijs = new Edge[e];
         int index = 0;
         for (int i = 0; i < sparseMatrix.size(); i++) {
@@ -91,6 +100,7 @@ public class Matrixrep extends Graph {
     @Override
     public void removeEdge(int x, int y) {
         start++;
+
         for (int i = firstIndexOf(x); i < sparseMatrix.size() && sparseMatrix.get(i).v1 == x; i++) {
             Edge edge = sparseMatrix.get(i);
             if (edge.v2 == y) {
@@ -99,7 +109,9 @@ public class Matrixrep extends Graph {
                 break;
             }
         }
-
+        for (int i = x + 1; i < starts.length; i++) {
+            starts[i]--;
+        }
         for (int i = firstIndexOf(y); i < sparseMatrix.size() && sparseMatrix.get(i).v1 == y; i++) {
             Edge edge = sparseMatrix.get(i);
             if (edge.v2 == x) {
@@ -107,6 +119,9 @@ public class Matrixrep extends Graph {
                 sparseMatrix.remove(i);
                 break;
             }
+        }
+        for (int i = y + 1; i < starts.length; i++) {
+            starts[i]--;
         }
 
         e--;
@@ -127,31 +142,35 @@ public class Matrixrep extends Graph {
         ArrayList<Integer> common = new ArrayList<>();
         ArrayList<Integer> onlywithi = new ArrayList<>();
         ArrayList<Integer> onlywithj = new ArrayList<>();
-        while (pointer1 < sparseMatrix.size() && pointer2 < sparseMatrix.size() && sparseMatrix.get(pointer1).v1 == i && sparseMatrix.get(pointer2).v1 == j) {
+        while (pointer1 < sparseMatrix.size() && pointer2 < sparseMatrix.size() &&
+                sparseMatrix.get(pointer1).v1 == i && sparseMatrix.get(pointer2).v1 == j) {
             Edge e1 = sparseMatrix.get(pointer1);
             Edge e2 = sparseMatrix.get(pointer2);
             if (e1.v2 == e2.v2) {
-                common.add(e1.v1);
+                common.add(e1.v2);
                 pointer1++;
                 pointer2++;
             } else if (e1.v2 < e2.v2) {
-                onlywithi.add(e1.v1);
+                onlywithi.add(e1.v2);
                 pointer1++;
             } else {
-                onlywithj.add(e1.v1);
+                onlywithj.add(e2.v2);
                 pointer2++;
             }
-            while (pointer1 < sparseMatrix.size() && sparseMatrix.get(pointer1).v1 == i) {
-                onlywithi.add(sparseMatrix.get(pointer1).v1);
-                pointer1++;
-            }
-            while (pointer2 < sparseMatrix.size() && sparseMatrix.get(pointer2).v1 == j) {
-                onlywithj.add(sparseMatrix.get(pointer2).v1);
-                pointer2++;
-            }
-
         }
+        while (pointer1 < sparseMatrix.size() && sparseMatrix.get(pointer1).v1 == i) {
+            onlywithi.add(sparseMatrix.get(pointer1).v2);
+            pointer1++;
+        }
+        while (pointer2 < sparseMatrix.size() && sparseMatrix.get(pointer2).v1 == j) {
+            onlywithj.add(sparseMatrix.get(pointer2).v2);
+            pointer2++;
+        }
+
+
         System.out.println("commmon : " + common);
+        System.out.println("onlywith i : " + onlywithi);
+        System.out.println("onlywith j : " + onlywithj);
         for (int counter = 0; counter < common.size(); counter++) {
             int comm = common.get(counter);
 
@@ -292,21 +311,21 @@ public class Matrixrep extends Graph {
     }
 
     // driver
-    private int firstIndexOf(int a) {
-        return firstIndexOf(a, 0, sparseMatrix.size());
+    private int firstStart(int a) {
+        return firstStart(a, 0, sparseMatrix.size());
     }
 
     //binary search
-    private int firstIndexOf(int a, int l, int r) {
+    private int firstStart(int a, int l, int r) {
         if (l > r) { // not found
             return -1;
         }
         int mid = (l + r) / 2;
         Edge e = sparseMatrix.get(mid);
         if (e.v1 > a) {
-            return firstIndexOf(a, l, mid - 1);
+            return firstStart(a, l, mid - 1);
         } else if (e.v1 < a) {
-            return firstIndexOf(a, mid + 1, r);
+            return firstStart(a, mid + 1, r);
         } else { // e.v1 == a
             while (mid != 0 && sparseMatrix.get(mid - 1).v1 == a) {
                 mid--;
@@ -315,6 +334,10 @@ public class Matrixrep extends Graph {
 
         }
 
+    }
+
+    private int firstIndexOf(int a) {
+        return starts[a];
     }
 
     public int getK(int a) {
