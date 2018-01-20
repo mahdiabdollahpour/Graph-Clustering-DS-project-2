@@ -1,7 +1,6 @@
 package app.Graphs;
 
 import app.Edge;
-import app.MyQueue;
 import app.MylinekedList.MyIterator;
 
 import java.util.ArrayList;
@@ -56,14 +55,6 @@ public class Listrep extends Graph {
 
                 }
 
-
-//                MyIterator iterator = new MyIterator(list[i]);
-//                while (iterator.hasNext()) {
-//                    Integer comm = (Integer) iterator.next();
-//                    if (!comm.equals(now) && list[now].contains(comm)) {
-//                        numberoftriangels++;
-//                    }
-//                }
                 cijs[index] = new Edge((float) (((numberoftriangels + 1) * 1.0) / makhraj), i, now, numberoftriangels);
                 index++;
 
@@ -93,41 +84,6 @@ public class Listrep extends Graph {
         list[a].remove(b);
         list[b].remove(a);
         e--;
-    }
-
-    private float calcCijFor(int i, int j) {
-        int numberoftriangels = 0;
-
-        int ki = list[i].length;
-        int kj = list[j].length;
-        int makhraj = Math.min(ki - 1, kj - 1);
-        if (makhraj == 0) {
-            return (float) 10000.00;
-        }
-
-        MyIterator pointer1 = new MyIterator(list[i]);
-        MyIterator pointer2 = new MyIterator(list[j]);
-        int p1 = 0;
-        int p2 = 0;
-        if (pointer1.hasNext() && pointer2.hasNext()) {
-
-            p1 = (int) pointer1.next();
-            p2 = (int) pointer2.next();
-        }
-        while (pointer1.hasNext() && pointer2.hasNext()) {
-            if (p1 == p2) {
-                numberoftriangels++;
-                p1 = (int) pointer1.next();
-                p2 = (int) pointer2.next();
-            } else if (p1 < p2) {
-                p2 = (int) pointer2.next();
-            } else {
-                p1 = (int) pointer1.next();
-            }
-
-        }
-        return (float) (((numberoftriangels + 1) * 1.0) / makhraj);
-
     }
 
     @Override
@@ -241,11 +197,11 @@ public class Listrep extends Graph {
 
     @Override
     public boolean isThereaPath(int s, int d) {
-        MyQueue<Integer> q = new MyQueue<>();
+        ArrayList<Integer> q = new ArrayList<>();
         q.add(s);
         marked = new boolean[v];
         while (!q.isEmpty()) {
-            int a = q.dequeue();
+            int a = q.remove(0);
             if (marked[a]) {
                 continue;
             }
@@ -261,38 +217,6 @@ public class Listrep extends Graph {
 
         }
         return false;
-    }
-
-    @Override
-    public void test() {
-
-    }
-
-    public boolean isConnected() {
-        marked = new boolean[v];
-        MyQueue<Integer> q = new MyQueue<>();
-        q.add(0);
-        while (!q.isEmpty()) {// BFS
-            // System.out.println("bad loop");
-            int a = q.dequeue();
-            if (marked[a]) {
-                continue;
-            }
-            marked[a] = true;
-            MyIterator iterator = new MyIterator(list[a]);
-            while (iterator.hasNext()) {
-                Integer now = (Integer) iterator.next();
-                if (!marked[now]) {
-                    q.add(now);
-                }
-            }
-        }
-        for (int i = 0; i < marked.length; i++) {
-            if (!marked[i]) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }

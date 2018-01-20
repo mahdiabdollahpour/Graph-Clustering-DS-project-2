@@ -127,8 +127,15 @@ public class Sort {
             int m = (l + r) / 2;
 
             mergeSort(arr, l, m);
-            mergeSort(arr, m + 1, r);
-            merge(arr, l, m, r);
+            if (r - m - 1 < m - l) {
+
+                mergeSort(arr, m + 1, r);
+                merge(arr, l, m, r);
+            } else {
+                merge(arr, l, m, r);
+                mergeSort(arr, m + 1, r);
+
+            }
         }
     }
 

@@ -1,9 +1,9 @@
 package app;
 
 import app.Graphs.Graph;
-import app.Graphs.Matrixrep;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class Main {
 
@@ -11,21 +11,14 @@ public class Main {
     static long processTime = 0;
 
     public static void main(String[] args) {
-//        BufferedReader bf = null;
-//        String address = null;
-//        String command = null;
-//        try {
-//            bf = new BufferedReader(new FileReader(new File("command")));
-//            command = bf.readLine();
-//            address = bf.readLine();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        String command = "RUN matrix quick";
-        String address = "small2.txt";
-        String[] commands = command.split(" ");
+        Scanner in = new Scanner(System.in);
+        String command = in.next();
+        //  = Arrays.copyOfRange(args, 0, args.length - 2);
+        //    String address = "test1.txt";
+
+
+        String[] commands = command.split("_");
+        String address = commands[commands.length - 1];
         if (commands[1].toLowerCase().charAt(0) == 'l') {
             process(address, commands, true);
         } else {
@@ -52,11 +45,12 @@ public class Main {
         Edge[] edges;// edges we want to sort according to cij
         boolean flag = true;
         edges = g.calcCij();
+
         do {//the algo loop
 //            g.print();
 
 
-            if (command.length == 5) {//sorting
+            if (command.length == 6) {//sorting
                 Sort.sort(edges, g.start, edges.length - 1, command[2].toLowerCase().charAt(0), command[3].toLowerCase().charAt(0), Integer.parseInt(command[4]));
             } else {
                 Sort.sort(edges, g.start, edges.length - 1, command[2].toLowerCase().charAt(0));
@@ -80,12 +74,15 @@ public class Main {
             }
             // System.out.println("passed one");
             System.out.println(g.e);
-
+            System.out.println(g.start + " removed");
 
         } while (edges.length != 0);
 
         end = System.currentTimeMillis();
         processTime = end - start;
+
+//        System.out.println(g.sparseMatrix.size());
+
         // storing the result
         try {
             FileIO.storeResult(g.gimmeLastMarkStat(), readtime, processTime, command, address);

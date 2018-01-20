@@ -20,8 +20,6 @@ public abstract class Graph {
 
     public boolean[] marked;
 
-    public abstract boolean isConnected();
-
     public abstract Edge[] calcCij();
 
     public abstract void print();
@@ -36,5 +34,4 @@ public abstract class Graph {
 
     public abstract boolean isThereaPath(int u, int v);
 
-    public abstract void test();
 }

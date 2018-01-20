@@ -1,7 +1,6 @@
 package app.Graphs;
 
 import app.Edge;
-import app.MyQueue;
 
 import java.util.ArrayList;
 
@@ -9,52 +8,28 @@ public class Matrixrep extends Graph {
 
     int[] starts;
 
-    public void stoteStarts() {
+    public void storeStarts() {
         starts = new int[v];
         for (int i = 0; i < v; i++) {
             starts[i] = firstStart(i);
         }
     }
 
-    @Override
-    public boolean isConnected() {
-        marked = new boolean[v];
-        MyQueue<Integer> q = new MyQueue<>();
-        q.add(0);
-        while (!q.isEmpty()) {
-            int a = q.dequeue();
-            marked[a] = true;
-            for (int i = firstIndexOf(a); i < sparseMatrix.size() && sparseMatrix.get(i).v1 == a; i++) {
-                Edge edge = sparseMatrix.get(i);
-                if (!marked[edge.v2]) {
-                    q.add(edge.v2);
-
-                }
-            }
-
-        }
-
-
-        for (int i = 0; i < marked.length; i++) {
-            if (!marked[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     @Override
     public Edge[] calcCij() {
-        stoteStarts();
+        storeStarts();
         Edge[] cijs = new Edge[e];
         int index = 0;
-        for (int i = 0; i < sparseMatrix.size(); i++) {
+        for (int i = start; i < sparseMatrix.size(); i++) {
             Edge e = sparseMatrix.get(i);
-            if (e.v1 < e.v2) {
+            if (e.v1 > e.v2) {
                 continue;
             }
             int ki = getK(e.v1);
+            //  System.out.println(" k of :" + e.v1 + " is " + ki);
             int kj = getK(e.v2);
+            // System.out.println(" k of :" + e.v2 + " is " + kj);
             int makhraj = Math.min(ki - 1, kj - 1);
             if (makhraj == 0) {
                 cijs[index] = new Edge(10000000, e.v1, e.v2, 0);
@@ -67,7 +42,8 @@ public class Matrixrep extends Graph {
             //  System.out.println("pointer1 " + pointer1);
             //  System.out.println("pointer2 " + pointer2);
 
-            while (pointer1 < sparseMatrix.size() && pointer2 < sparseMatrix.size() && sparseMatrix.get(pointer1).v1 == e.v1 && sparseMatrix.get(pointer2).v1 == e.v2) {
+            while (pointer1 < sparseMatrix.size() && pointer2 < sparseMatrix.size() &&
+                    sparseMatrix.get(pointer1).v1 == e.v1 && sparseMatrix.get(pointer2).v1 == e.v2) {
                 Edge e1 = sparseMatrix.get(pointer1);
                 Edge e2 = sparseMatrix.get(pointer2);
                 if (e1.v2 == e2.v2) {
@@ -81,7 +57,7 @@ public class Matrixrep extends Graph {
                 }
 
             }
-            cijs[index] = new Edge((float) (numberOfTriangels + 1) / makhraj, e.v1, e.v2, numberOfTriangels);
+            cijs[index] = new Edge((float) (((float) (numberOfTriangels + 1) * 1.0) / makhraj), e.v1, e.v2, numberOfTriangels);
             index++;
 
         }
@@ -196,7 +172,7 @@ public class Matrixrep extends Graph {
 
                     }
                     arr[i1].trangle--;
-                    arr[i1].cij = (float) (((arr[i1].trangle + 1) * 1.0) / makhraj);
+                    arr[i1].cij = (float) ((((float) (arr[i1].trangle + 1) * 1.0) / makhraj));
                     count++;
                 }
             }
@@ -215,7 +191,7 @@ public class Matrixrep extends Graph {
                     if (makhraj == 0) {
                         arr[i1].cij = (float) 10000.00;
                     }
-                    arr[i1].cij = (float) (((arr[i1].trangle + 1) * 1.0) / makhraj);
+                    arr[i1].cij = (float) (((float) (arr[i1].trangle + 1) * 1.0) / makhraj);
                     count++;
                 }
             }
@@ -233,7 +209,7 @@ public class Matrixrep extends Graph {
                     if (makhraj == 0) {
                         arr[i1].cij = (float) 10000.00;
                     }
-                    arr[i1].cij = (float) (((arr[i1].trangle + 1) * 1.0) / makhraj);
+                    arr[i1].cij = (float) (((float) (arr[i1].trangle + 1) * 1.0) / makhraj);
                     count++;
                 }
             }
@@ -246,19 +222,21 @@ public class Matrixrep extends Graph {
     @Override
     public boolean isThereaPath(int s, int d) {
         marked = new boolean[v];
-        MyQueue<Integer> q = new MyQueue<>();
+        ArrayList<Integer> q = new ArrayList<>();
         q.add(s);
         while (!q.isEmpty()) {
-            int a = q.dequeue();
+            int a = q.remove(0);
             if (a == d) {
                 return true;
+            }
+            if (marked[a]) {
+                continue;
             }
             marked[a] = true;
             for (int i = firstIndexOf(a); i < sparseMatrix.size() && sparseMatrix.get(i).v1 == a; i++) {
                 Edge edge = sparseMatrix.get(i);
                 if (!marked[edge.v2]) {
                     q.add(edge.v2);
-
                 }
             }
 
@@ -267,48 +245,6 @@ public class Matrixrep extends Graph {
 
     }
 
-    @Override
-    public void test() {
-        for (int i = 0; i < v; i++) {
-            System.out.println(getK(i));
-        }
-    }
-
-
-    // dirver
-    private boolean haveArc(int a, int b) {
-        return haveArc(a, b, 0, sparseMatrix.size());
-    }
-
-
-    // Binary search
-    private boolean haveArc(int a, int b, int l, int r) {
-        if (l > r) { // not found
-            return false;
-        }
-//        int mid = (l + r) / 2;
-//        Edge e = sparseMatrix.get(mid);
-//        if (e.v1 > a) {
-//            return haveArc(a, b, l, mid - 1);
-//        } else if (e.v1 < a) {
-//            return haveArc(a, b, mid + 1, r);
-//        } else {
-//            if (e.v2 > b) {
-//                return haveArc(a, b, l, mid - 1);
-//            } else
-//                return e.v2 >= b || haveArc(a, b, mid + 1, r);
-//
-//
-        int idx = firstIndexOf(a);
-        for (int i = idx; i < sparseMatrix.size() && sparseMatrix.get(i).v1 == idx; i++) {
-            if (sparseMatrix.get(i).v2 == b) {
-                return true;
-            }
-            // v1 == a and v2 == b
-
-        }
-        return false;
-    }
 
     // driver
     private int firstStart(int a) {
@@ -338,6 +274,7 @@ public class Matrixrep extends Graph {
 
     private int firstIndexOf(int a) {
         return starts[a];
+        //   return firstStart(a);
     }
 
     public int getK(int a) {
